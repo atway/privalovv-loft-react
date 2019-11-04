@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PropTypes from 'prop-types';
+
+import { userContext } from './../context.js'
 
 export function Login(props) {
+    const userLogic = useContext(userContext)
     const onSubmit = e => {
         e.preventDefault();
+        userLogic.signup(userLogic, e.target.email.value, e.target.password.value)
         props.setPage('profile')
     };
     
@@ -17,4 +22,8 @@ export function Login(props) {
             <button>Login</button>
         </form>
     )
+}
+
+Login.propTypes = {
+    setPage: PropTypes.func.isRequired
 }

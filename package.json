@@ -7,7 +7,6 @@
     "@material-ui/icons": "^4.5.1",
     "loft-taxi-mui-theme": "^1.0.1",
     "mapbox-gl": "^1.4.1",
-    "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-scripts": "3.2.0",
     "typeface-roboto": "0.0.75"
@@ -32,5 +31,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^9.3.2",
+    "react": "^16.11.0",
+    "react-test-renderer": "^16.11.0"
   }
 }

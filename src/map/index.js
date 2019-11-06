@@ -32,5 +32,5 @@ export const Map = () => {
 
     if (!map && userLogic.isLoggedIn) initializeMap({ setMap, mapContainer });
   }, [map, userLogic.isLoggedIn]);
-  return <div ref={el => (mapContainer.current = el)} style={styles} />;
+return <>{userLogic.isLoggedIn || <div>please log in</div>} <div ref={el => (mapContainer.current = el)} style={styles} />  </>;
 };

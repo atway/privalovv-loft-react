@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import { userContext } from "./../context.js";
+import { TextField } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 export function Signup(props) {
   const userLogic = useContext(userContext);
@@ -20,33 +22,38 @@ export function Signup(props) {
   return (
     <form onSubmit={onSubmit}>
       <div>
-        <input
+        <TextField
           type="email"
           name="email"
           label="email"
           placeholder="Email"
-        ></input>
+        ></TextField>
       </div>
       <div>
-        <input type="text" name="name" label="name" placeholder="Name"></input>
+        <TextField
+          type="text"
+          name="name"
+          label="name"
+          placeholder="Name"
+        ></TextField>
       </div>
       <div>
-        <input
+        <TextField
           type="text"
           name="surname"
-          label="name"
+          label="surname"
           placeholder="Surname"
-        ></input>
+        ></TextField>
       </div>
       <div>
-        <input
+        <TextField
           type="password"
           name="password"
           label="password"
           placeholder="Password"
-        ></input>
+        ></TextField>
       </div>
-      <button>Signup</button>
+      <Button>Signup</Button>
     </form>
   );
 }

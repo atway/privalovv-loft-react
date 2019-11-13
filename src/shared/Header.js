@@ -1,29 +1,32 @@
-import React, { useContext } from "react";
+import React from "react";
 import "typeface-roboto";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { unregisterUserRequest } from "../user/actions";
 
-import { userContext } from "./../context.js";
 
-export function Header(props) {
-    const userLogic = useContext(userContext);
+function Header(props) {
+    const { isLoggedIn } = props;
     return (
     <>
       <AppBar position="static">
         <Toolbar>
-          <Button onClick={e => props.setPage("profile")}>Profile</Button>
-          <Button onClick={e => props.setPage("map")}>Map</Button>
-          <Button onClick={e => props.setPage("login")}>Login</Button>
-          <Button onClick={e => props.setPage("signup")}>SignUp</Button>
-          <Button onClick={e => {userLogic.logout(userLogic); return props.setPage("logout")}}>Logout</Button>
+          { isLoggedIn && <Button component={Link} to="/map">Map</Button>}
+          { isLoggedIn && <Button component={Link} to="/profile">Profile</Button>}
+          { isLoggedIn && <Button component={Link} onClick={ props.unregisterUserRequest } to="/login">Logout</Button>}
+          { isLoggedIn || <Button component={Link} to="/login">Login</Button>}
+          { isLoggedIn || <Button component={Link} to="/signup">Signup</Button>}
         </Toolbar>
       </AppBar>
     </>
   );
 }
 
-Header.propTypes = {
-  setPage: PropTypes.func.isRequired
-};
+export default  connect(
+  state => { return { isLoggedIn: state.user.token !== null }},
+  { unregisterUserRequest }
+)( Header )

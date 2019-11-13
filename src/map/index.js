@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
 import mapboxgl from "mapbox-gl";
-
-import { userContext } from "./../context.js";
+import { connect } from "react-redux"
 
 const styles = {
   width: "100vw",
@@ -9,10 +9,9 @@ const styles = {
   position: "absolute"
 };
 
-export const Map = () => {
+const Map = (props) => {
   const [map, setMap] = React.useState(null);
   const mapContainer = React.useRef(null);
-  const userLogic = useContext(userContext);
 
   React.useEffect(() => {
     mapboxgl.accessToken =
@@ -30,7 +29,11 @@ export const Map = () => {
       });
     };
 
-    if (!map && userLogic.isLoggedIn) initializeMap({ setMap, mapContainer });
-  }, [map, userLogic.isLoggedIn]);
-return <>{userLogic.isLoggedIn || <div>please log in</div>} <div ref={el => (mapContainer.current = el)} style={styles} />  </>;
+    if (!map && props.isLoggedIn) initializeMap({ setMap, mapContainer });
+  }, [map, props.isLoggedIn]);
+return <>{props.isLoggedIn ||  <Redirect to="/login" />} <div ref={el => (mapContainer.current = el)} style={styles} />  </>;
 };
+
+export default connect(
+  state => { return { isLoggedIn: state.user.token !== null }}
+)(Map)

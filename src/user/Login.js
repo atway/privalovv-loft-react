@@ -1,32 +1,51 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import { TextField } from "@material-ui/core";
+import { connect } from "react-redux";
+import { Redirect } from "react-router";
 
-import { userContext } from './../context.js'
-import { TextField } from '@material-ui/core';
+import { authUserRequest } from "./actions";
 
-export function Login(props) {
-    const userLogic = useContext(userContext)
-    const onSubmit = e => {
-        e.preventDefault();
-        //console.log(e)
-        const data = new FormData(e.target);
-        userLogic.login(userLogic, data.get("email"), data.get("password"))
-        props.setPage('profile')
-    };
-    
-    return (
-        <form onSubmit={onSubmit}>
-            <div>
-                <TextField type="email" name="email" label="email" placeholder="email" inputProps={{ 'data-testid': "loginemail", 'name': "email"}}></TextField>
-            </div>
-            <div>
-                <TextField type="password" name="password" label="password" placeholder="Password" inputProps={{ 'data-testid': "loginpassword", 'name': "password"}}></TextField>
-            </div>
-            <button>Signing</button>
-        </form>
-    )
+function Login(props) {
+  const onSubmit = e => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    props.authUserRequest({
+      email: data.get("email"),
+      password: data.get("password")
+    });
+  };
+
+  if (props.isLoggedIn) {
+    return <Redirect to="/profile" />;
+  }
+  return (
+    <form onSubmit={onSubmit}>
+      <div>
+        <TextField
+          type="email"
+          name="email"
+          label="email"
+          placeholder="email"
+          inputProps={{ "data-testid": "loginemail", name: "email" }}
+        ></TextField>
+      </div>
+      <div>
+        <TextField
+          type="password"
+          name="password"
+          label="password"
+          placeholder="Password"
+          inputProps={{ "data-testid": "loginpassword", name: "password" }}
+        ></TextField>
+      </div>
+      <button>Signing</button>
+    </form>
+  );
 }
 
-Login.propTypes = {
-    setPage: PropTypes.func.isRequired
-}
+export default connect(
+  state => {
+    return { isLoggedIn: state.user.token !== null };
+  },
+  { authUserRequest }
+)(Login);

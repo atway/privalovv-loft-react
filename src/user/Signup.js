@@ -1,24 +1,22 @@
-import React, { useContext } from "react";
-import PropTypes from "prop-types";
+import React from "react";
+import { Redirect } from "react-router";
+import { connect } from "react-redux";
 
-import { userContext } from "./../context.js";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 
-export function Signup(props) {
-  const userLogic = useContext(userContext);
+import { registerUserRequest } from "./actions";
+
+function Signup(props) {
   const onSubmit = e => {
     e.preventDefault();
-    userLogic.signup(
-      userLogic,
-      e.target.email.value,
-      e.target.name.value,
-      e.target.surname.value,
-      e.target.password.value
-    );
-    props.setPage("profile");
+    const data = new FormData(e.target);
+    props.registerUserRequest({ email: data.get("email"), password: data.get("password"), name: data.get("name"), surname: data.get("surname")});
   };
 
+  if (props.isLoggedIn) {
+    return <Redirect to="/profile" />
+  }
   return (
     <form onSubmit={onSubmit}>
       <div>
@@ -53,11 +51,14 @@ export function Signup(props) {
           placeholder="Password"
         ></TextField>
       </div>
-      <Button>Signup</Button>
+      <Button type="submit">Signup</Button>
     </form>
   );
 }
 
-Signup.propTypes = {
-  setPage: PropTypes.func.isRequired
-};
+export default connect(
+  state => {
+    return { isLoggedIn: state.user.token !== null };
+  },
+  { registerUserRequest }
+)(Signup);

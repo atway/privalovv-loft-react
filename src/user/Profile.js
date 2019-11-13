@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { userContext } from "./../context.js";
-
-export function Profile() {
-  const userLogic = useContext(userContext);
-  return userLogic.isLoggedIn ? (
+function Profile(props) {
+  return props.isLoggedIn ? (
     <div>user profile</div>
   ) : (
-    <div> You are not logged </div>
+    <Redirect to="/login" />
   );
 }
+
+export default connect(
+  state => { return { isLoggedIn: state.user.token !== null }}
+)(Profile)

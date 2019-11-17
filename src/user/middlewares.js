@@ -21,8 +21,12 @@ export const taxiUserMiddleware = store => next => action => {
       headers: { "Content-Type": "application/json" }
     })
       .then(response => response.json())
-      .then(token => {
-        store.dispatch(registerUserSuccess(token));
+      .then(response => {
+        if (response.success === true) {
+          store.dispatch(
+            registerUserSuccess({ ...action.payload, token: response.token })
+          );
+        }
       })
       .catch(error => {
         store.dispatch(registerUserFailure(error));
@@ -55,7 +59,7 @@ export const taxiUserMiddleware = store => next => action => {
       });
   } else if (action.type === fetchCardRequest.toString()) {
     fetch(`https://loft-taxi.glitch.me/card?token=${action.payload}`, {
-      method: "GET",
+      method: "GET"
     })
       .then(response => response.json())
       .then(card => {

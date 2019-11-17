@@ -1,5 +1,5 @@
-import { handleActions } from 'redux-actions';
-import { combineReducers } from 'redux';
+import { handleActions } from "redux-actions";
+import { combineReducers } from "redux";
 import {
   registerUserRequest,
   unregisterUserRequest,
@@ -15,34 +15,39 @@ import {
 
 const user = handleActions(
   {
-    [registerUserRequest]: () => { return { token: null }},
-    [unregisterUserRequest]: () => { return { token: null }},
+    [registerUserRequest]: () => {
+      return { token: null };
+    },
+    [unregisterUserRequest]: () => {
+      return { token: null };
+    },
     [registerUserSuccess]: (_state, action) => action.payload,
-    [authUserRequest]: () => { return { token: null }},
-    [authUserSuccess]: (_state, action) => action.payload,
+    [authUserRequest]: () => {
+      return { token: null };
+    },
+    [authUserSuccess]: (_state, action) => action.payload
   },
-  { token: null },
+  { token: null }
 );
 
 const card = handleActions(
   {
     [upsertCardRequest]: () => {},
-    [upsertCardSuccess]: (_state, action) => action.payload,
+    [upsertCardSuccess]: (_state, action) => action.payload
   },
-  {},
+  {}
 );
 
 const error = handleActions(
   {
     [registerUserRequest]: () => null,
-    [registerUserFailure]: (_state, action) => action.payload,
+    [registerUserFailure]: (_state, action) => action.payload
   },
-  null,
+  null
 );
 
 export default combineReducers({
   user,
   card,
-  error,
+  error
 });
-

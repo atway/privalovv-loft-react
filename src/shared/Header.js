@@ -5,10 +5,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { unregisterUserRequest } from "../user/actions";
+import { logoutUserRequest } from "../user/actions";
 
 function Header(props) {
-  const { isLoggedIn, unregisterUserRequest } = props;
+  const { isLoggedIn, logoutUserRequest } = props;
   return (
     <>
       <AppBar position="static">
@@ -26,7 +26,7 @@ function Header(props) {
           {isLoggedIn && (
             <Button
               component={Link}
-              onClick={unregisterUserRequest}
+              onClick={logoutUserRequest}
               to="/login"
             >
               Logout
@@ -42,5 +42,5 @@ export default connect(
   state => {
     return { isLoggedIn: state.user.token !== null };
   },
-  { unregisterUserRequest }
+  { logoutUserRequest }
 )(Header);

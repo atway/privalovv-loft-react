@@ -5,10 +5,9 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
-import createStore from "./store";
+import createAppStore from "./store";
 
-const store = createStore();
-
+const store = createAppStore()
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

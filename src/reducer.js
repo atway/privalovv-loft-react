@@ -2,7 +2,7 @@ import { handleActions } from "redux-actions";
 import { combineReducers } from "redux";
 import {
   registerUserRequest,
-  unregisterUserRequest,
+  logoutUserRequest,
   registerUserSuccess,
   registerUserFailure,
   authUserRequest,
@@ -10,15 +10,16 @@ import {
   authUserFailure,
   upsertCardRequest,
   upsertCardSuccess,
+  fetchCardSuccess,
   upsertCardFailure
-} from "./actions";
+} from "./user/actions";
 
 const user = handleActions(
   {
     [registerUserRequest]: () => {
       return { token: null };
     },
-    [unregisterUserRequest]: () => {
+    [logoutUserRequest]: () => {
       return { token: null };
     },
     [registerUserSuccess]: (_state, action) => action.payload,
@@ -33,7 +34,8 @@ const user = handleActions(
 const card = handleActions(
   {
     [upsertCardRequest]: () => {},
-    [upsertCardSuccess]: (_state, action) => action.payload
+    [upsertCardSuccess]: (_state, action) => action.payload,
+    [fetchCardSuccess]: (_state, action) => action.payload
   },
   {}
 );

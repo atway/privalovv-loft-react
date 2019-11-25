@@ -23,69 +23,101 @@ function Profile(props) {
       token: props.token,
     });
   };
+  const validateProfile = (values) => {
+    const errors = {}
+    if (! values.cardNumber.test(/^[0-9]{4}[ ][0-9]{4}[ ][0-9]{4}[ ][0-9]{4}$/)) {
+      errors.cardNumber = 'invalid'
+    }
+    return errors
+  }
+
+  const renderTextField = ({ input, label, meta: { touched, error }, ...custom }) => (
+    <TextField
+      {...input}
+      {...custom}
+    />
+  )
+
   return (
-    <form onSubmit={onSubmit}>
-      <Grid
-        container
-        justify="center"
-        alignItems="center"
-        style={{ minHeight: "100vh" }}
-      >
-        <Paper>
-          <Grid item container>
-            <Grid item xs={12} >
-              <p>Профиль</p>
-            </Grid>
-            <Grid item xs={12}>
-              <p>способ оплаты</p>
-            </Grid>
-            <Grid container item xs={6}>
-              <Paper>
-                <Grid item xs={12}>
-                  <TextField
-                    type="text"
-                    name="cardnumber"
-                    label="Номер карты"
-                    placeholder="0000 0000 0000 0000"
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    type="text"
-                    name="date"
-                    label="Срок действия до"
-                    placeholder="01/19"
-                  ></TextField>
-                </Grid>
-              </Paper>
-            </Grid>
-            <Grid container item xs={6}>
-              <Paper>
-                <Grid item xs={12}>
-                  <TextField
-                    type="text"
-                    name="name"
-                    label="Имя владельца"
-                    placeholder="USER NAME"
-                  ></TextField>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    type="password"
-                    name="cvc"
-                    label="CVC"
-                    placeholder="CVC"
-                  ></TextField>
-                </Grid>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Button type="submit">Сохранить</Button>
-            </Grid>
-          </Grid>
-        </Paper>
-      </Grid>
-    </form>
+    <Form
+      onSubmit = {onSubmit}
+      validate = { (values) => {
+          const errors = {}
+          console.log(values.cardNumber)
+          if (! values.cardNumber) {
+            errors.cardNumber = 'required'
+          }
+          return errors
+        }
+      }
+      render = { ({handleSubmit}) => (
+              <form onSubmit={handleSubmit}>
+              <Grid
+                container
+                justify="center"
+                alignItems="center"
+                style={{ minHeight: "100vh" }}
+              >
+                <Paper>
+                  <Grid item container>
+                    <Grid item xs={12} >
+                      <p>Профиль</p>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <p>способ оплаты</p>
+                    </Grid>
+                    <Grid container item xs={6}>
+                      <Paper>
+                        <Grid item xs={12}>
+                          <Field
+                            type="text"
+                            name="cardNumber"
+                            label="Номер карты"
+                            placeholder="0000 0000 0000 0000"
+                            component={renderTextField}
+                          ></Field>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Field
+                            type="text"
+                            name="date"
+                            label="Срок действия до"
+                            placeholder="01/19"
+                            component={renderTextField}
+                          ></Field>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                    <Grid container item xs={6}>
+                      <Paper>
+                        <Grid item xs={12}>
+                          <Field
+                            type="text"
+                            name="name"
+                            label="Имя владельца"
+                            placeholder="USER NAME"
+                            component={renderTextField}
+                          ></Field>
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Field
+                            type="password"
+                            name="cvc"
+                            label="CVC"
+                            placeholder="CVC"
+                            component={renderTextField}
+                          ></Field>
+                        </Grid>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Button type="submit">Сохранить</Button>
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </Grid>
+            </form>
+      )} />
   );
 }
 
